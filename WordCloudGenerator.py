@@ -1,39 +1,20 @@
-# Python program to generate WordCloud
-from builtins import print
-
-# importing all necessary modules
-from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 import pandas as pd
+from wordcloud import WordCloud
 
-# Reads 'Youtube04-Eminem.csv' file
 # df = pd.read_csv(r"Youtube04-Eminem.csv", encoding="latin-1")
 df = pd.read_csv("Sentiment.csv", error_bad_lines=False)
 
-comment_words = ''
-stopwords = set(STOPWORDS)
+cloud_words = ''
 
-# iterate through the csv file
 for val in df.COMMENT:
-
-    # typecaste each val to string
-    val = str(val)
-
-    # split the value
+    val = str(val).lower()
     tokens = val.split()
+    cloud_words += " ".join(tokens) + " "
 
-    # Converts each token into lowercase
-    for i in range(len(tokens)):
-        tokens[i] = tokens[i].lower()
-
-    comment_words += " ".join(tokens) + " "
-
-wordcloud = WordCloud(width=800, height=800,
+wordcloud = WordCloud(width=300, height=650,
                       background_color='white',
-                      stopwords=stopwords,
-                      min_font_size=10).generate(comment_words)
-
-# plot the WordCloud image
+                      min_font_size=10).generate(cloud_words)
 plt.figure(figsize=(8, 8), facecolor=None)
 plt.imshow(wordcloud)
 plt.axis("off")
